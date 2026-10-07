@@ -1,0 +1,4 @@
+solicitudes.db
+uploads/
+__pycache__/
+.venv/

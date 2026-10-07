@@ -1,0 +1,31 @@
+<div class="grid">
+  <label>Empresa *<input name="empresa" required value="{{ s.empresa or '' }}"></label>
+  <label>Puesto *<input name="puesto" required value="{{ s.puesto or '' }}"></label>
+  <label>Fecha de envío<input type="date" name="fecha_envio" value="{{ s.fecha_envio or '' }}"></label>
+  <label>Clase
+    <select name="clase" id="clase">{% for c in clases %}<option {{ 'selected' if c == s.clase }}>{{ c }}</option>{% endfor %}</select>
+  </label>
+  <label id="campo-localizacion">Localización<input name="localizacion" placeholder="Ciudad / dirección" value="{{ s.localizacion or '' }}"></label>
+  <label id="campo-dias">Días presenciales por semana<input type="number" name="dias_presenciales" min="1" max="5" value="{{ s.dias_presenciales or '' }}"></label>
+  <label>Canal<input name="canal" list="canales" placeholder="LinkedIn, email, web…" value="{{ s.canal or '' }}">
+    <datalist id="canales"><option>LinkedIn</option><option>Email</option><option>Web de la empresa</option><option>InfoJobs</option><option>Indeed</option></datalist>
+  </label>
+  <label>Estado
+    <select name="estado">{% for e in estados %}<option {{ 'selected' if e == s.estado }}>{{ e }}</option>{% endfor %}</select>
+  </label>
+  <label>Enlace a la oferta<input type="url" name="enlace" value="{{ s.enlace or '' }}"></label>
+</div>
+<label>Notas<textarea name="notas" rows="3">{{ s.notas or '' }}</textarea></label>
+<script>
+  (function () {
+    const clase = document.getElementById("clase");
+    const loc = document.getElementById("campo-localizacion");
+    const dias = document.getElementById("campo-dias");
+    function actualizar() {
+      loc.hidden = clase.value === "Remoto";
+      dias.hidden = clase.value !== "Híbrido";
+    }
+    clase.addEventListener("change", actualizar);
+    actualizar();
+  })();
+</script>

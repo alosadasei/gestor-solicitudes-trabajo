@@ -1,0 +1,43 @@
+:root { --bg:#f6f7f9; --card:#fff; --txt:#1f2430; --mut:#6b7280; --line:#e2e5ea; --acc:#2f6fed; --red:#c53030; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg:#14161b; --card:#1e2128; --txt:#e6e8ec; --mut:#9aa1ad; --line:#2d313a; --acc:#6b9bff; --red:#f07178; }
+}
+* { box-sizing: border-box; }
+body { margin:0; font:15px/1.5 system-ui,sans-serif; background:var(--bg); color:var(--txt); }
+header { display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;
+  padding:.8rem 1.5rem; background:var(--card); border-bottom:1px solid var(--line); }
+header h1 { font-size:1.15rem; margin:0; }
+nav a { margin-left:.5rem; padding:.35rem .8rem; border-radius:6px; text-decoration:none; color:var(--txt); }
+nav a.activa { background:var(--acc); color:#fff; }
+main { max-width:1000px; margin:1.5rem auto; padding:0 1rem; }
+a { color:var(--acc); }
+.card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
+.card h3 { margin-top:0; }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.75rem 1rem; }
+@media (max-width:700px) { .grid { grid-template-columns:1fr; } }
+label { display:block; font-size:.85rem; color:var(--mut); margin-bottom:.75rem; }
+label.inline { display:inline; margin-left:.75rem; }
+input, select, textarea { display:block; width:100%; margin-top:.25rem; padding:.5rem .6rem; font:inherit; color:var(--txt);
+  background:var(--bg); border:1px solid var(--line); border-radius:6px; }
+input[type=checkbox] { display:inline; width:auto; }
+button { font:inherit; padding:.5rem 1.1rem; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--txt); cursor:pointer; margin-right:.75rem; }
+button.primario { background:var(--acc); border-color:var(--acc); color:#fff; }
+button.peligro { color:var(--red); border-color:var(--red); }
+.flash { padding:.6rem 1rem; border-radius:6px; margin-bottom:1rem; background:var(--card); border:1px solid var(--line); }
+.flash.ok { border-left:4px solid #2f9e44; } .flash.error { border-left:4px solid var(--red); }
+.filtros { display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; margin-bottom:1rem; }
+.filtros input, .filtros select { width:auto; margin:0; } .filtros input { flex:1; min-width:200px; }
+#contador { color:var(--mut); font-size:.85rem; }
+table { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+th, td { padding:.6rem .8rem; text-align:left; border-bottom:1px solid var(--line); }
+th { cursor:pointer; user-select:none; font-size:.8rem; text-transform:uppercase; letter-spacing:.04em; color:var(--mut); white-space:nowrap; }
+th[data-orden=asc]::after { content:" ▲"; } th[data-orden=desc]::after { content:" ▼"; }
+tbody tr { cursor:pointer; } tbody tr:hover { background:var(--bg); } tr[hidden] { display:none; }
+/* los campos condicionales conservan su hueco para que nada se desplace */
+label[hidden] { display:block; visibility:hidden; }
+@media (max-width:700px) { label[hidden] { display:none; } }
+.estado { padding:.1rem .55rem; border-radius:99px; font-size:.8rem; background:var(--line); }
+.e-entrevista, .e-oferta { background:#d3f9d8; color:#1b5e20; }
+.e-rechazada { background:#ffe3e3; color:#8a1c1c; }
+.e-en-proceso { background:#dbe4ff; color:#1c3d99; }
+.vacio { color:var(--mut); text-align:center; padding:2rem; }

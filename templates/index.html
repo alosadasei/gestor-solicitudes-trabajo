@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="filtros">
+  <input id="buscar" type="search" placeholder="Buscar en cualquier columna…">
+  <select id="filtro-estado">
+    <option value="">Todos los estados</option>
+    {% for e in estados %}<option>{{ e }}</option>{% endfor %}
+  </select>
+  <select id="filtro-clase">
+    <option value="">Todas las clases</option>
+    {% for c in clases %}<option>{{ c }}</option>{% endfor %}
+  </select>
+  <select id="filtro-resp">
+    <option value="">Con o sin respuesta</option>
+    <option value="Sí">Con respuesta</option>
+    <option value="No">Sin respuesta</option>
+  </select>
+  <span id="contador"></span>
+</div>
+
+{% if filas %}
+<table id="tabla">
+  <thead>
+    <tr>
+      <th data-tipo="texto">Empresa</th>
+      <th data-tipo="texto">Puesto</th>
+      <th data-tipo="texto">Fecha envío</th>
+      <th data-tipo="texto">Canal</th>
+      <th data-tipo="texto">Clase</th>
+      <th data-tipo="texto">Localización</th>
+      <th data-tipo="texto">Estado</th>
+      <th data-tipo="texto">Respuesta</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for s in filas %}
+    {% set tiene = s.respuesta_texto or s.respuesta_archivo %}
+    <tr data-href="{{ url_for('detalle', sid=s.id) }}">
+      <td>{{ s.empresa }}</td>
+      <td>{{ s.puesto }}</td>
+      <td>{{ s.fecha_envio }}</td>
+      <td>{{ s.canal or '' }}</td>
+      <td>{{ s.clase }}{% if s.dias_presenciales %} ({{ s.dias_presenciales }} d){% endif %}</td>
+      <td>{{ s.localizacion or '' }}</td>
+      <td><span class="estado e-{{ s.estado|replace(' ', '-')|lower }}">{{ s.estado }}</span></td>
+      <td>{{ 'Sí' if tiene else 'No' }}{% if s.respuesta_archivo %} 📎{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="vacio">Aún no hay solicitudes. <a href="{{ url_for('nueva') }}">Añade la primera</a>.</p>
+{% endif %}
+<script src="{{ url_for('static', filename='tabla.js') }}"></script>
+{% endblock %}

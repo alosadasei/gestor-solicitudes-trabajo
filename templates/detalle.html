@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}{{ s.empresa }} · {{ s.puesto }}{% endblock %}
+{% block content %}
+<h2>{{ s.empresa }} — {{ s.puesto }}</h2>
+
+<form method="post" action="{{ url_for('editar', sid=s.id) }}" class="card">
+  <h3>Datos</h3>
+  {% include "_campos.html" %}
+  <button class="primario">Guardar cambios</button>
+  {% if s.enlace %}<a href="{{ s.enlace }}" target="_blank" rel="noopener">Abrir oferta ↗</a>{% endif %}
+</form>
+
+<form method="post" action="{{ url_for('respuesta', sid=s.id) }}" enctype="multipart/form-data" class="card">
+  <h3>Respuesta recibida</h3>
+  <label>Fecha de respuesta<input type="date" name="respuesta_fecha" value="{{ s.respuesta_fecha or '' }}"></label>
+  <label>Texto de la respuesta<textarea name="respuesta_texto" rows="5">{{ s.respuesta_texto or '' }}</textarea></label>
+  {% if s.respuesta_archivo %}
+    <p>Adjunto: <a href="{{ url_for('archivo', sid=s.id) }}">{{ s.respuesta_nombre }}</a>
+      <label class="inline"><input type="checkbox" name="quitar_archivo"> quitar</label></p>
+  {% endif %}
+  <label>{{ 'Reemplazar adjunto' if s.respuesta_archivo else 'Adjuntar archivo' }} (máx. 10 MB)<input type="file" name="archivo"></label>
+  <button class="primario">Guardar respuesta</button>
+</form>
+
+<form method="post" action="{{ url_for('eliminar', sid=s.id) }}" onsubmit="return confirm('¿Eliminar esta solicitud?')">
+  <button class="peligro">Eliminar solicitud</button>
+</form>
+{% endblock %}
