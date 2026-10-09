@@ -9,17 +9,21 @@
   const fResp = document.getElementById("filtro-resp");
   const contador = document.getElementById("contador");
 
-  const celda = (tr, i) => tr.cells[i].textContent.trim();
+  const cols = Array.from(tabla.tHead.querySelectorAll("th"));
+  const idx = nombre => cols.findIndex(th => th.dataset.col === nombre);
+  // valor "limpio" de una celda: las celdas con barra lo traen en data-valor
+  const celda = (tr, i) => (tr.cells[i].dataset.valor ?? tr.cells[i].textContent).trim();
+  const textoFila = tr => Array.from(tr.cells, (_, i) => celda(tr, i)).join(" ").toLowerCase();
 
   function filtrar() {
     const q = buscar.value.toLowerCase();
     let visibles = 0;
     filas.forEach(tr => {
       const ok =
-        (!q || tr.textContent.toLowerCase().includes(q)) &&
-        (!fClase.value || celda(tr, 4).startsWith(fClase.value)) &&
-        (!fEstado.value || celda(tr, 6) === fEstado.value) &&
-        (!fResp.value || celda(tr, 7).startsWith(fResp.value));
+        (!q || textoFila(tr).includes(q)) &&
+        (!fClase.value || celda(tr, idx("clase")).startsWith(fClase.value)) &&
+        (!fEstado.value || celda(tr, idx("estado")) === fEstado.value) &&
+        (!fResp.value || celda(tr, idx("resp")).startsWith(fResp.value));
       tr.hidden = !ok;
       if (ok) visibles++;
     });
@@ -31,8 +35,10 @@
       const asc = th.dataset.orden !== "asc";
       tabla.tHead.querySelectorAll("th").forEach(o => delete o.dataset.orden);
       th.dataset.orden = asc ? "asc" : "desc";
+      // el estado se ordena por su posición en el proceso, no alfabéticamente
+      const clave = (tr) => tr.cells[i].dataset.orden ?? celda(tr, i);
       filas.sort((a, b) =>
-        celda(a, i).localeCompare(celda(b, i), "es", { numeric: true, sensitivity: "base" }) * (asc ? 1 : -1));
+        String(clave(a)).localeCompare(String(clave(b)), "es", { numeric: true, sensitivity: "base" }) * (asc ? 1 : -1));
       filas.forEach(tr => cuerpo.appendChild(tr));
     });
   });

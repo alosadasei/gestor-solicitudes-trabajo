@@ -1,0 +1,19 @@
+{# Barra de progreso del proceso. Uso: {% from "_barra.html" import barra %}{{ barra(s, fechas) }} #}
+{% macro barra(s, fechas, compacta=false) %}
+  {% set b = barra_proceso(s, fechas) %}
+  {% if b.fin %}
+    <div class="barra fin-{{ b.fin|lower }}{{ ' compacta' if compacta }}" title="{{ b.fin }}">
+      <div class="relleno">{{ b.fin }}{% if b.fecha %} · {{ b.fecha|corta }}{% endif %}</div>
+    </div>
+  {% else %}
+    <div class="barra{{ ' compacta' if compacta }}">
+      {% for e in b.etapas %}
+        <div class="etapa {{ e.situacion }} et-{{ e.nombre|replace(' ', '-')|lower }}">
+          <div class="tramo"></div>
+          <span class="nombre">{{ e.nombre }}</span>
+          <span class="fecha">{{ e.fecha|corta if e.fecha else '' }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endmacro %}

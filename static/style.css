@@ -9,7 +9,7 @@ header { display:flex; align-items:center; justify-content:space-between; gap:1r
 header h1 { font-size:1.15rem; margin:0; }
 nav a { margin-left:.5rem; padding:.35rem .8rem; border-radius:6px; text-decoration:none; color:var(--txt); }
 nav a.activa { background:var(--acc); color:#fff; }
-main { max-width:1000px; margin:1.5rem auto; padding:0 1rem; }
+main { max-width:1200px; margin:1.5rem auto; padding:0 1rem; }
 a { color:var(--acc); }
 .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:1rem 1.25rem; margin-bottom:1.25rem; }
 .card h3 { margin-top:0; }
@@ -36,8 +36,25 @@ tbody tr { cursor:pointer; } tbody tr:hover { background:var(--bg); } tr[hidden]
 /* los campos condicionales conservan su hueco para que nada se desplace */
 label[hidden] { display:block; visibility:hidden; }
 @media (max-width:700px) { label[hidden] { display:none; } }
-.estado { padding:.1rem .55rem; border-radius:99px; font-size:.8rem; background:var(--line); }
-.e-entrevista, .e-oferta { background:#d3f9d8; color:#1b5e20; }
-.e-rechazada { background:#ffe3e3; color:#8a1c1c; }
-.e-en-proceso { background:#dbe4ff; color:#1c3d99; }
 .vacio { color:var(--mut); text-align:center; padding:2rem; }
+.nota { color:var(--mut); font-size:.85rem; margin:.25rem 0 .75rem; }
+
+/* barra de progreso del proceso */
+.barra { display:flex; gap:3px; }
+.barra .etapa { flex:1; min-width:0; text-align:center; }
+.barra .tramo { height:12px; border-radius:6px; background:var(--line); }
+.barra .hecha .tramo, .barra .actual .tramo { background:var(--acc); }
+.barra .actual.et-oferta .tramo { background:#2f9e44; }
+.barra .nombre { display:block; margin-top:.25rem; font-size:.8rem; }
+.barra .fecha { display:block; font-size:.75rem; color:var(--mut); min-height:1.1em; }
+.barra .pendiente .nombre { color:var(--mut); opacity:.6; }
+.barra .actual .nombre { font-weight:600; }
+.barra .relleno { flex:1; border-radius:999px; color:#fff; font-size:.85rem; font-weight:600;
+  text-align:center; padding:.35rem .6rem; }
+.barra.fin-rechazada .relleno { background:var(--red); }
+.barra.fin-ignorada .relleno { background:#8b93a1; }
+.barra.compacta { min-width:230px; }
+.barra.compacta .tramo { height:8px; }
+.barra.compacta .nombre { font-size:.68rem; margin-top:.15rem; }
+.barra.compacta .fecha { font-size:.65rem; }
+.barra.compacta .relleno { padding:.2rem .5rem; font-size:.72rem; }

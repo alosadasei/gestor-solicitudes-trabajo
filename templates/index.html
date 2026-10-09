@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_barra.html" import barra %}
 {% block content %}
 <div class="filtros">
   <input id="buscar" type="search" placeholder="Buscar en cualquier columna…">
@@ -22,14 +23,14 @@
 <table id="tabla">
   <thead>
     <tr>
-      <th data-tipo="texto">Empresa</th>
-      <th data-tipo="texto">Puesto</th>
-      <th data-tipo="texto">Fecha envío</th>
-      <th data-tipo="texto">Canal</th>
-      <th data-tipo="texto">Clase</th>
-      <th data-tipo="texto">Localización</th>
-      <th data-tipo="texto">Estado</th>
-      <th data-tipo="texto">Respuesta</th>
+      <th>Empresa</th>
+      <th>Puesto</th>
+      <th>Fecha envío</th>
+      <th>Canal</th>
+      <th data-col="clase">Clase</th>
+      <th>Localización</th>
+      <th data-col="estado">Estado</th>
+      <th data-col="resp">Respuesta</th>
     </tr>
   </thead>
   <tbody>
@@ -42,7 +43,7 @@
       <td>{{ s.canal or '' }}</td>
       <td>{{ s.clase }}{% if s.dias_presenciales %} ({{ s.dias_presenciales }} d){% endif %}</td>
       <td>{{ s.localizacion or '' }}</td>
-      <td><span class="estado e-{{ s.estado|replace(' ', '-')|lower }}">{{ s.estado }}</span></td>
+      <td class="celda-barra" data-valor="{{ s.estado }}" data-orden="{{ estados.index(s.estado) }}">{{ barra(s, fechas.get(s.id), true) }}</td>
       <td>{{ 'Sí' if tiene else 'No' }}{% if s.respuesta_archivo %} 📎{% endif %}</td>
     </tr>
   {% endfor %}

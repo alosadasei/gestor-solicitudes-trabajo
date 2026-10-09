@@ -1,11 +1,14 @@
 {% extends "base.html" %}
+{% from "_barra.html" import barra %}
 {% block title %}{{ s.empresa }} · {{ s.puesto }}{% endblock %}
 {% block content %}
 <h2>{{ s.empresa }} — {{ s.puesto }}</h2>
+<div class="card">{{ barra(s, fechas) }}</div>
 
 <form method="post" action="{{ url_for('editar', sid=s.id) }}" class="card">
   <h3>Datos</h3>
   {% include "_campos.html" %}
+  {% if s.estado_fecha %}<p class="nota">En estado «{{ s.estado }}» desde {{ s.estado_fecha }}</p>{% endif %}
   <button class="primario">Guardar cambios</button>
   {% if s.enlace %}<a href="{{ s.enlace }}" target="_blank" rel="noopener">Abrir oferta ↗</a>{% endif %}
 </form>
